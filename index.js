@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
   next();
 });
 app.use('/user', userRoute)
-app.use('/auth', AuthRoute)
+// app.use('/auth', AuthRoute)
 // PORT
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {

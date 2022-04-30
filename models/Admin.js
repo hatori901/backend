@@ -4,6 +4,9 @@ const Admin = mongoose.model(
     new mongoose.Schema({
         username: String,
         password: String
+    },
+    {
+        collection: 'Admin'
     })
 )
 module.exports = Admin
