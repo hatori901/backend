@@ -3,6 +3,7 @@ let mongoose = require('mongoose');
 let cors = require('cors');
 let bodyParser = require('body-parser');
 // Express Route
+const usersRoute = require('./routes/users.route')
 const userRoute = require('./routes/user.route')
 const AuthRoute = require('./routes/auth.route')
 // Connecting mongoDB Database
@@ -27,7 +28,8 @@ app.use(function(req, res, next) {
   );
   next();
 });
-app.use('/user', userRoute)
+app.use('/users', usersRoute)
+app.use('/user',userRoute)
 app.use('/auth', AuthRoute)
 // PORT
 const port = process.env.PORT || 4000;

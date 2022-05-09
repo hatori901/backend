@@ -1,49 +1,17 @@
 let mongoose = require('mongoose'),
   express = require('express'),
-  router = express.Router();
-  const jwt = require('jsonwebtoken')
-const config = require('../config/auth.config')
-const controller = require('../controllers/auth.controller')
-let userSchema = require('../models/User');
-let adminSchema = require('../models/Admin');
-const User = require('../models/User');
-router.use((req,res,next)=>{
-  let token = req.headers["x-access-token"];
-  if (!token) {
-    return res.status(403).send({ message: "No token provided!" });
-  }
-  jwt.verify(token, config.secret, (err, decoded) => {
-      if (err) {
-        return res.status(401).send({ message: "Unauthorized!" });
-      }
-      req.userId = decoded.id;
-      next();
-  });
-})
-router.route('/').get((req, res) => {
-    userSchema.find((error, data) => {
-      if (error) {
-        return next(error)
-      } else {
-        res.json(data)
-      }
-    })
-})
+  router = express.Router(),
+  userSchema = require('../models/User');
 
-router.route('/:username').get((req, res,next) => {
-  userSchema.findOne({username: req.params.username},(error, data) => {
-    if (error) {
-      return next(error)
-    } else {
+router.route('/refferal/:reff').get((req,res,next)=>{
+  var query = userSchema.findOne({refferal: req.params.reff}).select({_id: 1,username:1})
+  query.exec((err,data)=>{
+    if(err){
+      next(err)
+    }else{
       res.json(data)
     }
   })
 })
-router.route('/verified').get((req,res,next)=>{
-  userSchema.estimatedDocumentCount((error,data)=>{
-    console.log(data);
-  })
-})
 
-
-module.exports = router;
+module.exports = router
